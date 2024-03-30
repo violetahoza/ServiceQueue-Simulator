@@ -40,7 +40,7 @@ public class SimulationManager implements Runnable{
             queue.getTotalWaitingTime().addAndGet(queue.getWaitingTime().get());
             queue.getNrClients().addAndGet(1);
             client.setRemainingTime(queue.getWaitingTime().get());
-            LogEvents.log("Client " + client.getID() + " was added to queue " + queues.indexOf(queue));
+            LogEvents.log("Client " + client.getID() + " was added to queue " + (queues.indexOf(queue) + 1));
         }
     }
     private QueueService bestQueue(){
@@ -70,8 +70,10 @@ public class SimulationManager implements Runnable{
                     QueueService best = bestQueue();
                     addClient(client, best);
                 }
-                client.setRemainingTime(client.getRemainingTime() - 1);
-            }
+                if (client.getRemainingTime() > 0) {
+                    client.setRemainingTime(client.getRemainingTime() - 1);
+                    view.updateClientRemainingTime(client, client.getRemainingTime());
+                }            }
             int peakTime = 0;
             for(QueueService queue : queues) {
                 queue.run();

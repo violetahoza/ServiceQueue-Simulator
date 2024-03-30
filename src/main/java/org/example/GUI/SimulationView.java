@@ -55,6 +55,8 @@ public class SimulationView extends JFrame {
             queues.add(queuePanel);
         }
         this.add(queuesPanel, BorderLayout.CENTER);
+        this.setSize(1200, 800);
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.pack();
     }
@@ -66,12 +68,25 @@ public class SimulationView extends JFrame {
         clientBox.setForeground(new Color(128, 0, 128));
         clientBox.setBackground(new Color(247, 216, 247));
         clientBox.setEditable(false);
-        clientBox.setText("ID: " + client.getID() + "\nArrival time: " + client.getArrivalTime() + "\nService time: " + client.getServiceTime() + "\nRemaining time: " + client.getRemainingTime());
+        clientBox.setText("ID: " + client.getID() + "\nArrival time: " + client.getArrivalTime() + "\nService time: " + client.getServiceTime() + "\nRemaining time: " + (client.getServiceTime() + client.getServiceTime()));
         queuePanel.add(clientBox);
         queuePanel.revalidate();
         queuePanel.repaint();
     }
-
+    public void updateClientRemainingTime(Client client, int newRemainingTime) {
+        for (JPanel queuePanel : queues) {
+            for (Component component : queuePanel.getComponents()) {
+                if (component instanceof JTextArea) {
+                    JTextArea clientBox = (JTextArea) component;
+                    String[] clientInfo = clientBox.getText().split("\n");
+                    if (Integer.parseInt(clientInfo[0].substring(clientInfo[0].lastIndexOf(":") + 2)) == client.getID()) {
+                        clientBox.setText("ID: " + client.getID() + "\nArrival time: " + client.getArrivalTime() + "\nService time: " + client.getServiceTime() + "\nRemaining time: " + newRemainingTime);
+                        break;
+                    }
+                }
+            }
+        }
+    }
     public void updateTime(int currentTime, int maxTime) {
         timeLabel.setText("Current simulation time: " + currentTime + "/" + maxTime);
         progressBar.setValue(currentTime);
