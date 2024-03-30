@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class LogEvents {
     public static final File fileInit = new File("log.txt");
     public static FileWriter file = null;
-    public static AtomicInteger tMax = new AtomicInteger(0);
+    public static AtomicInteger simulationTime = new AtomicInteger(0);
     public static AtomicInteger clientsNr = new AtomicInteger(0);
     public static AtomicInteger queuesNr = new AtomicInteger(0);
     public static AtomicInteger minArrival = new AtomicInteger(0);

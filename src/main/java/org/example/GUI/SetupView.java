@@ -11,15 +11,15 @@ import org.example.Model.LogEvents.*;
 import static org.example.Model.LogEvents.*;
 
 public class SetupView extends JFrame implements ActionListener {
-    JLabel clientsLabel = new JLabel("Insert the number of clients: ");
-    JLabel queueLabel = new JLabel("Insert the number of queues: ");
-    JLabel simLabel = new JLabel("Insert the maximum time of the simulation: ");
-    JLabel minArriv = new JLabel("Insert the minimum arrival time: ");
-    JLabel minServ = new JLabel("Insert the minimum service time: ");
-    JLabel maxArriv = new JLabel("Insert the maximum arrival time: ");
-    JLabel maxServ = new JLabel("Insert the maximum service time: ");
+    private JLabel clientsLabel = new JLabel("Insert the number of clients: ");
+    private JLabel queueLabel = new JLabel("Insert the number of queues: ");
+    private JLabel simLabel = new JLabel("Insert the maximum time of the simulation: ");
+    private JLabel minArriv = new JLabel("Insert the minimum arrival time: ");
+    private JLabel minServ = new JLabel("Insert the minimum service time: ");
+    private JLabel maxArriv = new JLabel("Insert the maximum arrival time: ");
+    private JLabel maxServ = new JLabel("Insert the maximum service time: ");
     public JTextField clientstf = new JTextField(), queuetf = new JTextField(), tmaxtf = new JTextField(), tminArrival = new JTextField(), tmaxArrival = new JTextField(), tminService = new JTextField(), tmaxService = new JTextField();
-    JButton submit = new JButton("Submit");
+    private JButton submit = new JButton("Submit");
 
     public SetupView(String name){
        super(name);
@@ -96,13 +96,13 @@ public class SetupView extends JFrame implements ActionListener {
             else{
                 clientsNr.set(Integer.parseInt(clientstf.getText()));
                 queuesNr.set(Integer.parseInt(queuetf.getText()));
-                tMax.set(Integer.parseInt(tmaxtf.getText()));
+                simulationTime.set(Integer.parseInt(tmaxtf.getText()));
                 maxArrival.set(Integer.parseInt(tmaxArrival.getText()));
                 minArrival.set(Integer.parseInt(tminArrival.getText()));
                 maxService.set(Integer.parseInt(tmaxService.getText()));
                 minService.set(Integer.parseInt(tminService.getText()));
             }
-            if(tMax.get() < 0 || maxService.get() < 0 || maxArrival.get() < 0 || minArrival.get() < 0 || minService.get() < 0 || queuesNr.get() < 0 || clientsNr.get() < 0)
+            if(simulationTime.get() < 0 || maxService.get() < 0 || maxArrival.get() < 0 || minArrival.get() < 0 || minService.get() < 0 || queuesNr.get() < 0 || clientsNr.get() < 0)
             {
                 ok = false;
                 showErrorDialog("All the values must be positive!");
@@ -118,16 +118,16 @@ public class SetupView extends JFrame implements ActionListener {
                 showErrorDialog("Min service cannot be greater than max service!");
                 throw new IllegalArgumentException("Min service cannot be greater than max service!");
             }
-            if(maxArrival.get() > tMax.get()){
+            if(maxArrival.get() > simulationTime.get()){
                 ok = false;
                 showErrorDialog("Max arrival time can't be greater than max simulation time!");
                 throw new IllegalArgumentException("Max arrival time can't be greater than max simulation time!");
             }
             if(ok == true) {
                 System.out.println("the inputs are ok");
-                //Thread simulationControl = new Thread(new SimulationManager(new SimulationView("Queue management simulation")));
-                //this.dispose();
-                //simulationControl.start();
+                Thread simulationControl = new Thread(new SimulationManager(new SimulationView("Queue management simulation")));
+                this.dispose();
+                simulationControl.start();
             }
         }
     }
@@ -136,5 +136,11 @@ public class SetupView extends JFrame implements ActionListener {
         UIManager.put("OptionPane.messageFont", font);
         UIManager.put("OptionPane.messageForeground", Color.RED);
         JOptionPane.showMessageDialog(null, message, "Input Error", JOptionPane.ERROR_MESSAGE);
+    }
+    public static void showMessageDialog(String message, String title) {
+        Font font = new Font("Times New Roman", Font.BOLD, 14);
+        UIManager.put("OptionPane.messageFont", font);
+        UIManager.put("OptionPane.messageForeground", Color.RED);
+        JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
     }
 }
