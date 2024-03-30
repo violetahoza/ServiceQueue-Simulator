@@ -25,4 +25,7 @@ public class Client {
     public void setRemainingTime(int remainingTime) {
         this.remainingTime = remainingTime;
     }
+    public void decrementServiceTime(){
+        this.serviceTime--;
+    }
 }
