@@ -22,11 +22,11 @@ public class ClientGenerator {
         this.random = new Random();
     }
 
-    public List<Client> generateClients(){
-        List<Client> clients = new ArrayList<>();
+    public ArrayList<Client> generateClients(){
+        ArrayList<Client> clients = new ArrayList<>();
         for(int i = 1; i <= nrClients; i++){
-            int arrivalTime = random.nextInt(minArrival,maxArrival - minArrival + 1);
-            int serviceTime = random.nextInt(minService, maxService - minService + 1);
+            int arrivalTime = random.nextInt(minArrival,maxArrival + 1);
+            int serviceTime = random.nextInt(minService, maxService + 1);
             clients.add(new Client(i, arrivalTime, serviceTime));
         }
         return clients;

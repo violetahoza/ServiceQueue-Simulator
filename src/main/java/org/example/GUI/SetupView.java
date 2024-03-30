@@ -5,16 +5,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.example.Logic.SimulationManager;
+import org.example.Model.LogEvents;
+import org.example.Model.LogEvents.*;
+import static org.example.Model.LogEvents.*;
 
 public class SetupView extends JFrame implements ActionListener {
     JLabel clientsLabel = new JLabel("Insert the number of clients: ");
     JLabel queueLabel = new JLabel("Insert the number of queues: ");
     JLabel simLabel = new JLabel("Insert the maximum time of the simulation: ");
-    JLabel minArrival = new JLabel("Insert the minimum arrival time: ");
-    JLabel minService = new JLabel("Insert the minimum service time: ");
-    JLabel maxArrival = new JLabel("Insert the maximum arrival time: ");
-    JLabel maxService = new JLabel("Insert the maximum service time: ");
-    JTextField clientstf = new JTextField(), queuetf = new JTextField(), tmaxtf = new JTextField(), tminArrival = new JTextField(), tmaxArrival = new JTextField(), tminService = new JTextField(), tmaxService = new JTextField();
+    JLabel minArriv = new JLabel("Insert the minimum arrival time: ");
+    JLabel minServ = new JLabel("Insert the minimum service time: ");
+    JLabel maxArriv = new JLabel("Insert the maximum arrival time: ");
+    JLabel maxServ = new JLabel("Insert the maximum service time: ");
+    public JTextField clientstf = new JTextField(), queuetf = new JTextField(), tmaxtf = new JTextField(), tminArrival = new JTextField(), tmaxArrival = new JTextField(), tminService = new JTextField(), tmaxService = new JTextField();
     JButton submit = new JButton("Submit");
 
     public SetupView(String name){
@@ -35,10 +39,10 @@ public class SetupView extends JFrame implements ActionListener {
         addRow(panel, clientsLabel, clientstf);
         addRow(panel, queueLabel, queuetf);
         addRow(panel, simLabel, tmaxtf);
-        addRow(panel, minArrival, tminArrival);
-        addRow(panel, maxArrival, tmaxArrival);
-        addRow(panel, minService, tminService);
-        addRow(panel, maxService, tmaxService);
+        addRow(panel, minArriv, tminArrival);
+        addRow(panel, maxArriv, tmaxArrival);
+        addRow(panel, minServ, tminService);
+        addRow(panel, maxServ, tmaxService);
 
         JPanel submitPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         submitPanel.setBackground(new Color(220, 200, 250));
@@ -90,37 +94,41 @@ public class SetupView extends JFrame implements ActionListener {
                 throw new IllegalArgumentException("All the inputs must be numbers!");
             }
             else{
-                clientstf.setText(c);
-                queuetf.setText(q);
-                tmaxtf.setText(tmax);
-                tmaxArrival.setText(arrivmax);
-                tmaxService.setText(servicemax);
-                tminArrival.setText(arrivmin);
-                tminService.setText(servicemin);
+                clientsNr.set(Integer.parseInt(clientstf.getText()));
+                queuesNr.set(Integer.parseInt(queuetf.getText()));
+                tMax.set(Integer.parseInt(tmaxtf.getText()));
+                maxArrival.set(Integer.parseInt(tmaxArrival.getText()));
+                minArrival.set(Integer.parseInt(tminArrival.getText()));
+                maxService.set(Integer.parseInt(tmaxService.getText()));
+                minService.set(Integer.parseInt(tminService.getText()));
             }
-            if(getSimulationTime() < 0 || getMaxService() < 0 || getMaxArrival() < 0 || getMinArrival() < 0 || getMinService() < 0 || getQueues() < 0 || getClients() < 0)
+            if(tMax.get() < 0 || maxService.get() < 0 || maxArrival.get() < 0 || minArrival.get() < 0 || minService.get() < 0 || queuesNr.get() < 0 || clientsNr.get() < 0)
             {
                 ok = false;
                 showErrorDialog("All the values must be positive!");
                 throw new IllegalArgumentException("All the values must be positive!");
             }
-            if(getMaxArrival() < getMinArrival()){
+            if(maxArrival.get() < minArrival.get()){
                 ok = false;
                 showErrorDialog("Min arrival cannot be greater than max arrival!");
                 throw new IllegalArgumentException("Min arrival cannot be greater than max arrival!");
             }
-            if(getMaxService() < getMinService()){
+            if(maxService.get() < minService.get()){
                 ok = false;
                 showErrorDialog("Min service cannot be greater than max service!");
                 throw new IllegalArgumentException("Min service cannot be greater than max service!");
             }
-            if(getMaxArrival() > getSimulationTime()){
+            if(maxArrival.get() > tMax.get()){
                 ok = false;
                 showErrorDialog("Max arrival time can't be greater than max simulation time!");
                 throw new IllegalArgumentException("Max arrival time can't be greater than max simulation time!");
             }
-            if(ok == true)
+            if(ok == true) {
                 System.out.println("the inputs are ok");
+                //Thread simulationControl = new Thread(new SimulationManager(new SimulationView("Queue management simulation")));
+                //this.dispose();
+                //simulationControl.start();
+            }
         }
     }
     public static void showErrorDialog(String message) {
@@ -128,27 +136,5 @@ public class SetupView extends JFrame implements ActionListener {
         UIManager.put("OptionPane.messageFont", font);
         UIManager.put("OptionPane.messageForeground", Color.RED);
         JOptionPane.showMessageDialog(null, message, "Input Error", JOptionPane.ERROR_MESSAGE);
-    }
-
-    public int getClients() {
-        return Integer.parseInt(clientstf.getText());
-    }
-    public int getQueues() {
-        return Integer.parseInt(queuetf.getText());
-    }
-    public int getSimulationTime() {
-        return Integer.parseInt(tmaxtf.getText());
-    }
-    public int getMaxArrival() {
-        return Integer.parseInt(tmaxArrival.getText());
-    }
-    public int getMinArrival() {
-        return Integer.parseInt(tminArrival.getText());
-    }
-    public int getMaxService() {
-        return Integer.parseInt(tmaxService.getText());
-    }
-    public int getMinService() {
-        return Integer.parseInt(tminService.getText());
     }
 }
