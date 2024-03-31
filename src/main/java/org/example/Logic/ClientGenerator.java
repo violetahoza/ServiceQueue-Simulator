@@ -8,9 +8,9 @@ import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 
 public class ClientGenerator {
-    private final int nrClients;
-    private final int minArrival, maxArrival;
-    private final int minService, maxService;
+    private final int nrClients; //nr of clients to generate
+    private final int minArrival, maxArrival; //range of arrival times
+    private final int minService, maxService; //range of service times
     private final Random random;
 
     public ClientGenerator(int nrClients, int minArrival, int maxArrival, int minService, int maxService){

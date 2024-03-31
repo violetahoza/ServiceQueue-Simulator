@@ -9,7 +9,7 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
         try {
-            LogEvents.fileInit.createNewFile();
+            LogEvents.fileInit.createNewFile(); //create a new log file
         } catch (IOException e) {
             e.printStackTrace();
         }

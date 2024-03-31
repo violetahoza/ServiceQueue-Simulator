@@ -4,10 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.Array;
 import java.util.*;
-import java.util.List;
 
 import static org.example.Model.LogEvents.*;
-
 import org.example.Model.Client;
 import org.example.Model.LogEvents;
 
@@ -34,28 +32,33 @@ public class SimulationView extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
 
+        //setup progress panel
         progressPanel.setBackground(new Color(128, 0, 128));
+        progressPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
         timeLabel.setText("Current simulation time: " + 0 + "/" + simulationTime.get());
+        timeLabel.setForeground(new Color(220, 200, 250));
         progressPanel.add(timeLabel);
         progressBar.setMaximum(simulationTime.get());
         progressPanel.add(progressBar);
-
         this.add(progressPanel, BorderLayout.NORTH);
 
+        //setup queues panel
         queuesPanel.setBackground(new Color(128, 0, 128));
+        queuesPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
         queuesPanel.setLayout(new GridLayout(queuesNr.get(), 1));
         for(int i = 0; i < queuesNr.get(); i++) {
             JPanel queuePanel = new JPanel();
             queuePanel.setBackground(new Color(128, 0, 128));
             queuePanel.setLayout(new GridLayout(1, clientsNr.get()));
-            queuePanel.setSize(1600, 300);
+            queuePanel.setSize(1600, 100);
             JLabel queueIndex = new JLabel("Queue " + (i + 1));
+            queueIndex.setForeground(new Color(220, 200, 250));
             queuePanel.add(queueIndex);
             queuesPanel.add(queuePanel);
             queues.add(queuePanel);
         }
         this.add(queuesPanel, BorderLayout.CENTER);
-        this.setSize(1200, 800);
+        this.setMinimumSize(new Dimension(1600, 900));
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.pack();
@@ -67,8 +70,9 @@ public class SimulationView extends JFrame {
         clientBox.setFont(new Font("Arial", Font.BOLD, 15));
         clientBox.setForeground(new Color(128, 0, 128));
         clientBox.setBackground(new Color(247, 216, 247));
+        clientBox.setSize(200, 100);
         clientBox.setEditable(false);
-        clientBox.setText("ID: " + client.getID() + "\nArrival time: " + client.getArrivalTime() + "\nService time: " + client.getServiceTime() + "\nRemaining time: " + (client.getServiceTime() + client.getServiceTime()));
+        clientBox.setText("ID: " + client.getID() + "\nArrival time: " + client.getArrivalTime() + "\nService time: " + client.getServiceTime() + "\nRemaining time: " + client.getRemainingTime());
         queuePanel.add(clientBox);
         queuePanel.revalidate();
         queuePanel.repaint();
@@ -99,19 +103,23 @@ public class SimulationView extends JFrame {
                 client1.setBackground(new Color(220, 200, 250));
 
                 boolean remove = false;
-                // Go through all clients in the queue
+                // go through all clients in the queue
                 for (int i = 1; i < components.length; i++) {
                     JTextArea clientBox = (JTextArea) components[i];
                     String[] clientInfo = clientBox.getText().split("\n");
                     int remainingTime = Integer.parseInt(clientInfo[3].substring(clientInfo[3].lastIndexOf(":") + 2));
-                    if (remainingTime == 0)
+                    if (remainingTime == 0) {
                         remove = true;
+                        panel.remove(1); // remove the client if the service time is completed
+                        break;
+                    }
                 }
-                // Remove client if their service time is completed
-                if (remove)
-                    panel.remove(1);
+                if (remove) {
+                    panel.revalidate();
+                    panel.repaint();
+                }
 
-                // Update the appearance of the new first element in the queue
+                // update the appearance of the new first element in the queue
                 if(panel.getComponents().length > 1) {
                     Component[] updatedComponents = panel.getComponents();
                     JTextArea clientBox2 = (JTextArea) updatedComponents[1];

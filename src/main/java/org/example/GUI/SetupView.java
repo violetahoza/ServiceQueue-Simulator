@@ -2,11 +2,9 @@ package org.example.GUI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.example.Logic.SimulationManager;
-import org.example.Model.LogEvents;
 import org.example.Model.LogEvents.*;
 import static org.example.Model.LogEvents.*;
 
@@ -29,6 +27,7 @@ public class SetupView extends JFrame implements ActionListener {
     public void prepareGUI()
     {
         this.setSize(700, 500);
+        this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel panel = new JPanel();
         panel.setBackground(new Color(220, 200, 250));
@@ -81,6 +80,7 @@ public class SetupView extends JFrame implements ActionListener {
             String arrivmin = tminArrival.getText(), arrivmax = tmaxArrival.getText();
             String servicemax = tmaxService.getText(), servicemin = tminService.getText();
 
+            // validate the inputs
             if(c.isEmpty() || q.isEmpty() || tmax.isEmpty() || arrivmax.isEmpty() || arrivmin.isEmpty() || servicemax.isEmpty() || servicemin.isEmpty())
             {
                 System.out.println("Please complete all the fields!");
@@ -94,19 +94,24 @@ public class SetupView extends JFrame implements ActionListener {
                 throw new IllegalArgumentException("All the inputs must be numbers!");
             }
             else{
-                clientsNr.set(Integer.parseInt(clientstf.getText()));
-                queuesNr.set(Integer.parseInt(queuetf.getText()));
-                simulationTime.set(Integer.parseInt(tmaxtf.getText()));
-                maxArrival.set(Integer.parseInt(tmaxArrival.getText()));
-                minArrival.set(Integer.parseInt(tminArrival.getText()));
-                maxService.set(Integer.parseInt(tmaxService.getText()));
-                minService.set(Integer.parseInt(tminService.getText()));
+                clientsNr.set(Integer.parseInt(c));
+                queuesNr.set(Integer.parseInt(q));
+                simulationTime.set(Integer.parseInt(tmax));
+                maxArrival.set(Integer.parseInt(arrivmax));
+                minArrival.set(Integer.parseInt(arrivmin));
+                maxService.set(Integer.parseInt(servicemax));
+                minService.set(Integer.parseInt(servicemin));
             }
             if(simulationTime.get() < 0 || maxService.get() < 0 || maxArrival.get() < 0 || minArrival.get() < 0 || minService.get() < 0 || queuesNr.get() < 0 || clientsNr.get() < 0)
             {
                 ok = false;
                 showErrorDialog("All the values must be positive!");
                 throw new IllegalArgumentException("All the values must be positive!");
+            }
+            if(maxArrival.get() > simulationTime.get()){
+                ok = false;
+                showErrorDialog("Max arrival time can't be greater than max simulation time!");
+                throw new IllegalArgumentException("Max arrival time can't be greater than max simulation time!");
             }
             if(maxArrival.get() < minArrival.get()){
                 ok = false;
@@ -118,12 +123,8 @@ public class SetupView extends JFrame implements ActionListener {
                 showErrorDialog("Min service cannot be greater than max service!");
                 throw new IllegalArgumentException("Min service cannot be greater than max service!");
             }
-            if(maxArrival.get() > simulationTime.get()){
-                ok = false;
-                showErrorDialog("Max arrival time can't be greater than max simulation time!");
-                throw new IllegalArgumentException("Max arrival time can't be greater than max simulation time!");
-            }
-            if(ok == true) {
+
+            if(ok == true) { // if the inputs are valid, start the simulation
                 System.out.println("the inputs are ok");
                 Thread simulationControl = new Thread(new SimulationManager(new SimulationView("Queue management simulation")));
                 this.dispose();
