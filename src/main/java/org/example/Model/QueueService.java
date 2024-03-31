@@ -17,7 +17,7 @@ public class QueueService implements Runnable{
     public void addClient(Client client, int timeInQueue){
         clients.add(client); //add client to the queue
         nrClients.addAndGet(1); //update the nr of clients in the queue
-        waitingTime.addAndGet(client.getServiceTime() + timeInQueue); //update the waiting time by adding the service time of the client and the time spent in the queue
+        waitingTime.addAndGet(client.getServiceTime()); //update the waiting time by adding the service time of the client to the time spent in the queue
     }
     @Override
     public void run() {
@@ -25,12 +25,13 @@ public class QueueService implements Runnable{
         for (Client client : clients) {
             if (client.getRemainingTime() == 0) { //if the remaining time for the client is 0, then remove it from the queue
                 LogEvents.log("Client " + client.getID() + " left");
-                clients.remove(client);
+                clients.remove(client); // remove the client from the queue
+                nrClients.decrementAndGet(); //decrease the number of clients in the queue
                 break; // Exit loop after removing client
             } else if (client.getRemainingTime() > 0) {
                 LogEvents.log("Client " + client.getID() + " has the remaining time: " + client.getRemainingTime());
-                waitingTime.decrementAndGet();
-                //client.decrementRemainingTime();
+                waitingTime.decrementAndGet(); // decrement the total waiting time
+                //client.decrementRemainingTime();// decrement the remaining time for the client
             }
         }
     }

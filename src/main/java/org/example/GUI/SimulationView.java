@@ -5,7 +5,7 @@ import java.awt.*;
 import java.sql.Array;
 import java.util.*;
 
-import static org.example.Model.LogEvents.*;
+import static org.example.Logic.SimulationManager.*;
 import org.example.Model.Client;
 import org.example.Model.LogEvents;
 

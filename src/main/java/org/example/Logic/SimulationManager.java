@@ -5,8 +5,16 @@ import org.example.Model.*;
 import static java.lang.Thread.sleep;
 import static org.example.Model.LogEvents.*;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SimulationManager implements Runnable{
+    public static AtomicInteger simulationTime = new AtomicInteger(0); // AtomicIntegers to store simulation parameters and states
+    public static AtomicInteger clientsNr = new AtomicInteger(0);
+    public static AtomicInteger queuesNr = new AtomicInteger(0);
+    public static AtomicInteger minArrival = new AtomicInteger(0);
+    public static AtomicInteger maxArrival = new AtomicInteger(0);
+    public static AtomicInteger minService = new AtomicInteger(0);
+    public static AtomicInteger maxService = new AtomicInteger(0);
     private SimulationView view;
     private ArrayList<Client> clients = new ArrayList<>();
     private ArrayList<QueueService> queues = new ArrayList<>();
