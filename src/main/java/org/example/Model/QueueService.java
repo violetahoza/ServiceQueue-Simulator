@@ -6,15 +6,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class QueueService implements Runnable{
     private BlockingQueue<Client> clients;
-    private AtomicInteger waitingTime, nrClients, totalWaitingTime;
+    private AtomicInteger waitingTime, nrClients, waitingTimeSum;
+    private static boolean isRunning;
 
     public QueueService(){
         this.waitingTime = new AtomicInteger(0);
         this.clients = new ArrayBlockingQueue<>(500);
         this.nrClients = new AtomicInteger(0);
-        this.totalWaitingTime = new AtomicInteger(0);
+        this.waitingTimeSum = new AtomicInteger(0);
     }
-    public void addClient(Client client, int timeInQueue){
+    public void addClient(Client client){
         clients.add(client); //add client to the queue
         nrClients.addAndGet(1); //update the nr of clients in the queue
         waitingTime.addAndGet(client.getServiceTime()); //update the waiting time by adding the service time of the client to the time spent in the queue
@@ -22,7 +23,8 @@ public class QueueService implements Runnable{
     @Override
     public void run() {
         //loop through clients in the queue
-        for (Client client : clients) {
+
+        for(Client client : clients){
             if (client.getRemainingTime() == 0) { //if the remaining time for the client is 0, then remove it from the queue
                 LogEvents.log("Client " + client.getID() + " left");
                 clients.remove(client); // remove the client from the queue
@@ -71,10 +73,11 @@ public class QueueService implements Runnable{
         return nrClients;
     }
 
-    public AtomicInteger getTotalWaitingTime() {
-        return totalWaitingTime;
-    }
     public AtomicInteger getWaitingTime() {
         return waitingTime;
+    }
+
+    public AtomicInteger getWaitingTimeSum() {
+        return waitingTimeSum;
     }
 }

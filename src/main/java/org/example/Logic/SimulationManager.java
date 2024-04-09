@@ -46,9 +46,9 @@ public class SimulationManager implements Runnable{
         if((client.getServiceTime() + queue.getWaitingTime().get() + currentTime) > simulationTime.get()) {
             LogEvents.log("Client " + client.getID() + " can't be added to the queue because there is not enough time.");
         } else {
-            queue.addClient(client, queue.getWaitingTime().get());
+            queue.addClient(client);
             SimulationView.addClientToQueue(client, queues.indexOf(queue));
-            queue.getTotalWaitingTime().addAndGet(queue.getWaitingTime().get());
+            queue.getWaitingTimeSum().addAndGet(queue.getWaitingTime().get());
             queue.getNrClients().addAndGet(1);
             client.setRemainingTime(queue.getWaitingTime().get());
             LogEvents.log("Client " + client.getID() + " was added to queue " + (queues.indexOf(queue) + 1));
@@ -88,12 +88,18 @@ public class SimulationManager implements Runnable{
             view.getTimeLabel().setText("Current simulation time: " + currentTime + "/" + simulationTime.get());
             currentTime++;
         }
-        for(QueueService queueService : queues) { //compute and log the average waiting time for each queue
-            LogEvents.log("Average waiting time for queue " + (queues.indexOf(queueService) + 1) + ": " + (double) queueService.getTotalWaitingTime().get() / queueService.getNrClients().get());
+        // Compute and log the average waiting time for each queue
+        ArrayList<Double> avgWaitingTimes = new ArrayList<>();
+        for (QueueService queueService : queues) {
+            double avgWaitingTime = (double) queueService.getWaitingTimeSum().get() / queueService.getNrClients().get();
+            avgWaitingTimes.add(avgWaitingTime);
+            LogEvents.log("Average waiting time for queue " + (queues.indexOf(queueService) + 1) + ": " + avgWaitingTime);
         }
         LogEvents.log("Average service time: " + averageServiceTime); // log the average service time and peak hour
-        LogEvents.log("Peak hour: " + peakHour + " with average waiting time: " + (double) peakWaitingTime / queuesNr.get());
+        double avgPeakWaitingTime = (double) peakWaitingTime / queuesNr.get();
+        LogEvents.log("Peak hour: " + peakHour + " with average waiting time: " +avgPeakWaitingTime );
         SetupView.showMessageDialog("Simulation finished :)", "Simulation status");
+        view.displaySimulationResults(avgWaitingTimes, averageServiceTime, peakHour, avgPeakWaitingTime);
         LogEvents.close();
     }
 }

@@ -77,6 +77,14 @@ public class SimulationView extends JFrame {
         queuePanel.revalidate();
         queuePanel.repaint();
     }
+    public void displaySimulationResults(ArrayList<Double> avgWaitingTimes, double avgServiceTime, int peakHour, double peakWaitingTime) {
+        StringBuilder message = new StringBuilder("Average waiting time for:\n");
+        for (int i = 0; i < avgWaitingTimes.size(); i++) {
+            message.append("Queue ").append(i + 1).append(": ").append(avgWaitingTimes.get(i)).append("\n");
+        }
+        message.append("Average service time: " + avgServiceTime + "\nPeak hour: " + peakHour + " with average waiting time: " + peakWaitingTime);
+        JOptionPane.showMessageDialog(this, message.toString(), "Simulation Results", JOptionPane.INFORMATION_MESSAGE);
+    }
     public void updateClientRemainingTime(Client client, int newRemainingTime) {
         for (JPanel queuePanel : queues) {
             for (Component component : queuePanel.getComponents()) {
