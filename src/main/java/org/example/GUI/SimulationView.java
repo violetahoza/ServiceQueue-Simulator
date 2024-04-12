@@ -12,7 +12,7 @@ import org.example.Model.LogEvents;
 public class SimulationView extends JFrame {
     private static ArrayList<JPanel> queues = new ArrayList<>(queuesNr.get());
     private JProgressBar progressBar = new JProgressBar();
-    private JPanel queuesPanel = new JPanel(), progressPanel = new JPanel();
+    private JPanel queuesPanel = new JPanel(), progressPanel = new JPanel(), clientsPanel = new JPanel();
     private JLabel timeLabel = new JLabel();
 
     public ArrayList<JPanel> getQueues() {
@@ -58,10 +58,32 @@ public class SimulationView extends JFrame {
             queues.add(queuePanel);
         }
         this.add(queuesPanel, BorderLayout.CENTER);
+
+        // Setup clients panel
+        clientsPanel.setBackground(new Color(128, 0, 128));
+        clientsPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+        clientsPanel.setLayout(new GridLayout(0, 1));
+        JScrollPane clientsScrollPane = new JScrollPane(clientsPanel);
+        this.add(clientsScrollPane, BorderLayout.WEST);
+
         this.setMinimumSize(new Dimension(1600, 900));
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.pack();
+    }
+    public void displayClients(ArrayList<Client> clients) {
+        for (Client client : clients) {
+            JTextArea clientBox = new JTextArea();
+            clientBox.setFont(new Font("Arial", Font.BOLD, 15));
+            clientBox.setForeground(new Color(128, 0, 128));
+            clientBox.setBackground(new Color(247, 216, 247));
+            clientBox.setSize(200, 100);
+            clientBox.setEditable(false);
+            clientBox.setText("ID: " + client.getID() + "\nArrival time: " + client.getArrivalTime() + "\nService time: " + client.getServiceTime());
+            clientsPanel.add(clientBox);
+        }
+        clientsPanel.revalidate();
+        clientsPanel.repaint();
     }
     public static void addClientToQueue(Client client, int queueIndex) {
         JPanel queuePanel = queues.get(queueIndex);
@@ -71,7 +93,7 @@ public class SimulationView extends JFrame {
         clientBox.setBackground(new Color(247, 216, 247));
         clientBox.setSize(200, 100);
         clientBox.setEditable(false);
-        clientBox.setText("ID: " + client.getID() + "\nArrival time: " + client.getArrivalTime() + "\nService time: " + client.getServiceTime() + "\nRemaining time: " + client.getRemainingTime());
+        clientBox.setText("ID: " + client.getID() + "\nArrival time: " + client.getArrivalTime() + "\nService time: " + client.getServiceTime());
         queuePanel.add(clientBox);
         queuePanel.revalidate();
         queuePanel.repaint();

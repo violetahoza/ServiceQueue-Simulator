@@ -39,6 +39,7 @@ public class SimulationManager implements Runnable{
         // generate clients
         ClientGenerator clientGenerator = new ClientGenerator(clientsNr.get(), minArrival.get(), maxArrival.get(), minService.get(), maxService.get());
         clients.addAll(clientGenerator.generateClients());
+        view.displayClients(clients);
         for(Client client : clients) {
             averageServiceTime += client.getServiceTime();
             LogEvents.log("Client " + client.getID() + " arrives at: " + client.getArrivalTime() + " with service time: " + client.getServiceTime()); // log the client's arrival and service time
