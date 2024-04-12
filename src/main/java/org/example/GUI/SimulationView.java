@@ -84,14 +84,14 @@ public class SimulationView extends JFrame {
         message.append("Average service time: " + avgServiceTime + "\nPeak hour: " + peakHour + " with average waiting time: " + peakWaitingTime);
         JOptionPane.showMessageDialog(this, message.toString(), "Simulation Results", JOptionPane.INFORMATION_MESSAGE);
     }
-    public void updateClientRemainingTime(Client client, int newRemainingTime) {
+    public void updateClientRemainingTime(Client client) {
         for (JPanel queuePanel : queues) {
             for (Component component : queuePanel.getComponents()) {
                 if (component instanceof JTextArea) {
                     JTextArea clientBox = (JTextArea) component;
                     String[] clientInfo = clientBox.getText().split("\n");
                     if (Integer.parseInt(clientInfo[0].substring(clientInfo[0].lastIndexOf(":") + 2)) == client.getID()) {
-                        clientBox.setText("ID: " + client.getID() + "\nArrival time: " + client.getArrivalTime() + "\nService time: " + client.getServiceTime() + "\nRemaining time: " + newRemainingTime);
+                        clientBox.setText("ID: " + client.getID() + "\nArrival time: " + client.getArrivalTime() + "\nService time: " + client.getServiceTime() + "\nRemaining time: " + client.getRemainingTime());
                         break;
                     }
                 }

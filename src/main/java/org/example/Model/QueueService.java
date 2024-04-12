@@ -59,15 +59,15 @@ public class QueueService implements Runnable{
         return shortestQueue;
     }
 
-    public static QueueService getBestQueue(ArrayList<QueueService> queueServices) {
-        QueueService shortestTime = getShortestTimeQueue(queueServices);
-        ArrayList<QueueService> shortestTimeQueues = new ArrayList<QueueService>();
-        for (QueueService queueService : queueServices) {
-            if(queueService.equals(shortestTime))
-                shortestTimeQueues.add(queueService);
-        }
-        return getQueueWithMinClients(shortestTimeQueues);
-    }
+//    public static QueueService getBestQueue(ArrayList<QueueService> queueServices) {
+//        QueueService shortestTime = getShortestTimeQueue(queueServices);
+//        ArrayList<QueueService> shortestTimeQueues = new ArrayList<QueueService>();
+//        for (QueueService queueService : queueServices) {
+//            if(queueService.equals(shortestTime))
+//                shortestTimeQueues.add(queueService);
+//        }
+//        return getQueueWithMinClients(shortestTimeQueues);
+//    }
     public AtomicInteger getNrClients() {
         return nrClients;
     }

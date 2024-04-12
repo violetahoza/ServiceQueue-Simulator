@@ -1,139 +1,67 @@
-Client 1 arrives at: 5 with service time: 5
-Client 2 arrives at: 2 with service time: 7
-Client 3 arrives at: 6 with service time: 6
-Client 4 arrives at: 7 with service time: 4
-Client 5 arrives at: 5 with service time: 8
-Client 6 arrives at: 10 with service time: 1
-Client 7 arrives at: 8 with service time: 2
-Client 8 arrives at: 7 with service time: 7
-Client 9 arrives at: 6 with service time: 11
-Client 10 arrives at: 11 with service time: 1
-Client 11 arrives at: 5 with service time: 4
-Client 12 arrives at: 10 with service time: 3
+Client 1 arrives at: 2 with service time: 3
+Client 2 arrives at: 4 with service time: 2
+Client 3 arrives at: 4 with service time: 5
+Client 4 arrives at: 2 with service time: 1
+Client 5 arrives at: 2 with service time: 2
+Client 6 arrives at: 5 with service time: 3
+Client 7 arrives at: 3 with service time: 2
+Client 8 arrives at: 4 with service time: 5
+Client 9 arrives at: 5 with service time: 1
+Client 10 arrives at: 1 with service time: 1
+Client 11 arrives at: 3 with service time: 2
+Client 12 arrives at: 1 with service time: 4
 0:
 1:
+Client 10 was added to queue 1
+Client 12 was added to queue 2
+Client 10 left
+Client 12 has the remaining time: 3
 2:
-Client 2 was added to queue 1
-Client 2 has the remaining time: 6
-3:
-Client 2 has the remaining time: 5
-4:
-Client 2 has the remaining time: 4
-5:
-Client 1 was added to queue 2
-Client 5 was added to queue 1
-Client 11 was added to queue 2
-Client 2 has the remaining time: 3
-Client 5 has the remaining time: 11
-Client 1 has the remaining time: 4
-Client 11 has the remaining time: 8
-6:
-Client 3 was added to queue 1
-Client 9 was added to queue 2
-Client 2 has the remaining time: 2
-Client 5 has the remaining time: 10
-Client 3 has the remaining time: 15
-Client 1 has the remaining time: 3
-Client 11 has the remaining time: 7
-Client 9 has the remaining time: 17
-7:
+Client 1 was added to queue 1
 Client 4 was added to queue 1
-Client 8 was added to queue 2
-Client 2 has the remaining time: 1
-Client 5 has the remaining time: 9
-Client 3 has the remaining time: 14
-Client 4 has the remaining time: 16
-Client 1 has the remaining time: 2
-Client 11 has the remaining time: 6
-Client 9 has the remaining time: 16
-Client 8 has the remaining time: 21
-8:
-Client 7 was added to queue 1
-Client 2 left
-Client 1 has the remaining time: 1
-Client 11 has the remaining time: 5
-Client 9 has the remaining time: 15
-Client 8 has the remaining time: 20
-9:
-Client 5 has the remaining time: 7
-Client 3 has the remaining time: 12
-Client 4 has the remaining time: 14
-Client 7 has the remaining time: 13
-Client 1 left
-10:
-Client 6 was added to queue 2
-Client 12 was added to queue 1
-Client 5 has the remaining time: 6
-Client 3 has the remaining time: 11
-Client 4 has the remaining time: 13
-Client 7 has the remaining time: 12
-Client 12 has the remaining time: 13
-Client 11 has the remaining time: 3
-Client 9 has the remaining time: 13
-Client 8 has the remaining time: 18
-Client 6 has the remaining time: 14
-11:
-Client 10 was added to queue 2
-Client 5 has the remaining time: 5
-Client 3 has the remaining time: 10
-Client 4 has the remaining time: 12
-Client 7 has the remaining time: 11
-Client 12 has the remaining time: 12
-Client 11 has the remaining time: 2
-Client 9 has the remaining time: 12
-Client 8 has the remaining time: 17
-Client 6 has the remaining time: 13
-Client 10 has the remaining time: 11
-12:
+Client 5 was added to queue 2
+Client 1 has the remaining time: 3
+Client 4 has the remaining time: 4
+Client 12 has the remaining time: 2
 Client 5 has the remaining time: 4
-Client 3 has the remaining time: 9
-Client 4 has the remaining time: 11
-Client 7 has the remaining time: 10
-Client 12 has the remaining time: 11
-Client 11 has the remaining time: 1
-Client 9 has the remaining time: 11
-Client 8 has the remaining time: 16
-Client 6 has the remaining time: 12
-Client 10 has the remaining time: 10
-13:
+3:
+Client 7 was added to queue 1
+Client 11 was added to queue 2
+Client 1 has the remaining time: 2
+Client 4 has the remaining time: 3
+Client 7 has the remaining time: 4
+Client 12 has the remaining time: 1
 Client 5 has the remaining time: 3
-Client 3 has the remaining time: 8
-Client 4 has the remaining time: 10
-Client 7 has the remaining time: 9
-Client 12 has the remaining time: 10
-Client 11 left
-14:
-Client 5 has the remaining time: 2
-Client 3 has the remaining time: 7
-Client 4 has the remaining time: 9
-Client 7 has the remaining time: 8
-Client 12 has the remaining time: 9
-Client 9 has the remaining time: 9
-Client 8 has the remaining time: 14
-Client 6 has the remaining time: 10
-Client 10 has the remaining time: 8
-15:
+Client 11 has the remaining time: 4
+4:
+Client 2 was added to queue 1
+Client 3 can't be added to the queue because there is not enough time.
+Client 8 can't be added to the queue because there is not enough time.
+Client 1 has the remaining time: 1
+Client 4 has the remaining time: 2
+Client 7 has the remaining time: 3
+Client 2 has the remaining time: 3
+Client 12 left
+5:
+Client 6 was added to queue 2
+Client 9 can't be added to the queue because there is not enough time.
+Client 1 left
 Client 5 has the remaining time: 1
-Client 3 has the remaining time: 6
-Client 4 has the remaining time: 8
-Client 7 has the remaining time: 7
-Client 12 has the remaining time: 8
-Client 9 has the remaining time: 8
-Client 8 has the remaining time: 13
-Client 6 has the remaining time: 9
-Client 10 has the remaining time: 7
-16:
+Client 11 has the remaining time: 2
+Client 6 has the remaining time: 4
+6:
+Client 4 left
 Client 5 left
-Client 9 has the remaining time: 7
-Client 8 has the remaining time: 12
-Client 6 has the remaining time: 8
-Client 10 has the remaining time: 6
-17:
-Client 3 has the remaining time: 4
-Client 4 has the remaining time: 6
-Client 7 has the remaining time: 5
-Client 12 has the remaining time: 6
-Client 9 has the remaining time: 6
-Client 8 has the remaining time: 11
-Client 6 has the remaining time: 7
-Client 10 has the remaining time: 5
+7:
+Client 7 left
+Client 11 left
+8:
+Client 2 left
+Client 6 has the remaining time: 1
+9:
+Client 6 left
+10:
+Average waiting time for queue 1: Infinity
+Average waiting time for queue 2: Infinity
+Average service time: 2.5833333333333335
+Peak hour: 2 with average waiting time: 3.0

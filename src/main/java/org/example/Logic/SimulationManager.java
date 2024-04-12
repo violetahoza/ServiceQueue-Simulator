@@ -92,7 +92,7 @@ public class SimulationManager implements Runnable{
                 }
                 if (client.getRemainingTime() > 0) { // if client is still in the queue
                     client.decrementRemainingTime(); // update the waiting time
-                    view.updateClientRemainingTime(client, client.getRemainingTime());
+                    view.updateClientRemainingTime(client);
                 }
             }
             int peakTime = 0;
