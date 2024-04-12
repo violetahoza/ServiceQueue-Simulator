@@ -20,9 +20,14 @@ public class SimulationManager implements Runnable{
     private ArrayList<QueueService> queues = new ArrayList<>();
     private int currentTime = 0, peakHour = 0, peakWaitingTime = 0;
     private double averageServiceTime = 0;
+    public static enum Strategy{
+        SHORTEST_TIME, SHORTEST_QUEUE
+    }
+    public static Strategy strategy;
 
     public SimulationManager(SimulationView view) {
         this.view = view;
+
 
         // initialize queues
         for(int i = 0; i < queuesNr.get(); i++) {
@@ -49,8 +54,19 @@ public class SimulationManager implements Runnable{
             queue.addClient(client);
             SimulationView.addClientToQueue(client, queues.indexOf(queue));
             queue.getWaitingTimeSum().addAndGet(queue.getWaitingTime().get());
-            queue.getNrClients().addAndGet(1);
+            //queue.getNrClients().addAndGet(1);
             client.setRemainingTime(queue.getWaitingTime().get());
+//            int n = queue.getNrClients().get();
+//            if(n == 1)
+//                client.setRemainingTime(client.getServiceTime());
+//            else if(n > 1)
+//            {
+//                // Get the previous client in the queue
+//                Client previousClient = queue.getClients().stream().skip(n - 2).findFirst().orElse(null);
+//                if (previousClient != null) {
+//                    client.setRemainingTime(previousClient.getRemainingTime() + client.getServiceTime());
+//                }
+//            }
             LogEvents.log("Client " + client.getID() + " was added to queue " + (queues.indexOf(queue) + 1));
         }
     }
@@ -67,13 +83,18 @@ public class SimulationManager implements Runnable{
             LogEvents.log(currentTime + ":");
             for (Client client : clients) { // process each client
                 if(client.getArrivalTime() == currentTime) { // if the client has arrived
-                    QueueService best = QueueService.getBestQueue(queues);
+                    QueueService best = null;
+                    if(strategy == Strategy.SHORTEST_QUEUE)
+                        best = QueueService.getQueueWithMinClients(queues);
+                    if(strategy == Strategy.SHORTEST_TIME)
+                        best = QueueService.getShortestTimeQueue(queues);
                     addClient(client, best); // add the client to the optimal queue
                 }
                 if (client.getRemainingTime() > 0) { // if client is still in the queue
                     client.decrementRemainingTime(); // update the waiting time
                     view.updateClientRemainingTime(client, client.getRemainingTime());
-                }            }
+                }
+            }
             int peakTime = 0;
             for(QueueService queue : queues) { // run each queue
                 queue.run();

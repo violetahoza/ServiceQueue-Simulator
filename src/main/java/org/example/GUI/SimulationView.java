@@ -63,7 +63,6 @@ public class SimulationView extends JFrame {
         this.setVisible(true);
         this.pack();
     }
-
     public static void addClientToQueue(Client client, int queueIndex) {
         JPanel queuePanel = queues.get(queueIndex);
         JTextArea clientBox = new JTextArea();
@@ -136,5 +135,4 @@ public class SimulationView extends JFrame {
             }
         }
     }
-
 }

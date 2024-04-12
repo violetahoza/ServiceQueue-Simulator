@@ -33,7 +33,6 @@ public class QueueService implements Runnable{
             } else if (client.getRemainingTime() > 0) {
                 LogEvents.log("Client " + client.getID() + " has the remaining time: " + client.getRemainingTime());
                 waitingTime.decrementAndGet(); // decrement the total waiting time
-                //client.decrementRemainingTime();// decrement the remaining time for the client
             }
         }
     }
@@ -79,5 +78,9 @@ public class QueueService implements Runnable{
 
     public AtomicInteger getWaitingTimeSum() {
         return waitingTimeSum;
+    }
+
+    public BlockingQueue<Client> getClients() {
+        return clients;
     }
 }

@@ -16,12 +16,15 @@ public class SetupView extends JFrame implements ActionListener {
     private JLabel minServ = new JLabel("Insert the minimum service time: ");
     private JLabel maxArriv = new JLabel("Insert the maximum arrival time: ");
     private JLabel maxServ = new JLabel("Insert the maximum service time: ");
+    private JLabel strategyLabel = new JLabel("Strategy");
     public JTextField clientstf = new JTextField(), queuetf = new JTextField(), tmaxtf = new JTextField(), tminArrival = new JTextField(), tmaxArrival = new JTextField(), tminService = new JTextField(), tmaxService = new JTextField();
     private JButton submit = new JButton("Submit");
+    private JComboBox strategyBox;
 
     public SetupView(String name){
        super(name);
        this.prepareGUI();
+
     }
 
     public void prepareGUI()
@@ -32,7 +35,7 @@ public class SetupView extends JFrame implements ActionListener {
         JPanel panel = new JPanel();
         panel.setBackground(new Color(220, 200, 250));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
-        panel.setLayout(new GridLayout(8, 2, 5, 5));
+        panel.setLayout(new GridLayout(9, 2, 5, 5));
         this.add(panel);
 
         addRow(panel, clientsLabel, clientstf);
@@ -42,6 +45,14 @@ public class SetupView extends JFrame implements ActionListener {
         addRow(panel, maxArriv, tmaxArrival);
         addRow(panel, minServ, tminService);
         addRow(panel, maxServ, tmaxService);
+        customizeLabel(strategyLabel);
+        String[] options = {String.valueOf(Strategy.SHORTEST_QUEUE), String.valueOf(Strategy.SHORTEST_TIME)};
+        strategyBox = new JComboBox<>(options);
+        strategyBox.setFont(new Font("Arial", Font.BOLD, 16));
+        strategyBox.setForeground(new Color(128, 0, 128));
+        strategyBox.setBackground(new Color(247, 216, 247));
+        panel.add(strategyLabel);
+        panel.add(strategyBox);
 
         JPanel submitPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         submitPanel.setBackground(new Color(220, 200, 250));
@@ -70,7 +81,21 @@ public class SetupView extends JFrame implements ActionListener {
         panel.add(label);
         panel.add(textField);
     }
-
+    private void getStrategy() {
+        String selectedStrategy = (String) strategyBox.getSelectedItem();
+        if (selectedStrategy != null) {
+            switch (selectedStrategy) {
+                case "SHORTEST_TIME":
+                    strategy = Strategy.SHORTEST_TIME;
+                    break;
+                case "SHORTEST_QUEUE":
+                    strategy = Strategy.SHORTEST_QUEUE;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         boolean ok = true;
@@ -79,7 +104,7 @@ public class SetupView extends JFrame implements ActionListener {
             String c = clientstf.getText(), q = queuetf.getText(), tmax = tmaxtf.getText();
             String arrivmin = tminArrival.getText(), arrivmax = tmaxArrival.getText();
             String servicemax = tmaxService.getText(), servicemin = tminService.getText();
-
+            getStrategy();
             // validate the inputs
             if(c.isEmpty() || q.isEmpty() || tmax.isEmpty() || arrivmax.isEmpty() || arrivmin.isEmpty() || servicemax.isEmpty() || servicemin.isEmpty())
             {
@@ -123,7 +148,6 @@ public class SetupView extends JFrame implements ActionListener {
                 showErrorDialog("Min service cannot be greater than max service!");
                 throw new IllegalArgumentException("Min service cannot be greater than max service!");
             }
-
             if(ok == true) { // if the inputs are valid, start the simulation
                 System.out.println("the inputs are ok");
                 Thread simulationControl = new Thread(new SimulationManager(new SimulationView("Queue management simulation")));

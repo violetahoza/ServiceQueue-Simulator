@@ -28,4 +28,8 @@ public class Client {
     public void decrementRemainingTime(){
         this.remainingTime--;
     }
+    public void decrementServiceTime(){
+        this.serviceTime--;
+    }
+
 }
