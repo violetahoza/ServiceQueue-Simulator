@@ -6,7 +6,6 @@ import java.sql.Array;
 import java.util.*;
 
 import static org.example.Logic.SimulationManager.*;
-
 import org.example.Model.Client;
 import org.example.Model.LogEvents;
 
@@ -47,7 +46,7 @@ public class SimulationView extends JFrame {
         queuesPanel.setBackground(new Color(128, 0, 128));
         queuesPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
         queuesPanel.setLayout(new GridLayout(queuesNr.get(), 1));
-        for (int i = 0; i < queuesNr.get(); i++) {
+        for(int i = 0; i < queuesNr.get(); i++) {
             JPanel queuePanel = new JPanel();
             queuePanel.setBackground(new Color(128, 0, 128));
             queuePanel.setLayout(new GridLayout(1, clientsNr.get()));
@@ -72,7 +71,6 @@ public class SimulationView extends JFrame {
         this.setVisible(true);
         this.pack();
     }
-
     public void displayClients(ArrayList<Client> clients) {
         for (Client client : clients) {
             JTextArea clientBox = new JTextArea();
@@ -87,7 +85,6 @@ public class SimulationView extends JFrame {
         clientsPanel.revalidate();
         clientsPanel.repaint();
     }
-
     public static void addClientToQueue(Client client, int queueIndex) {
         JPanel queuePanel = queues.get(queueIndex);
         JTextArea clientBox = new JTextArea();
@@ -101,7 +98,6 @@ public class SimulationView extends JFrame {
         queuePanel.revalidate();
         queuePanel.repaint();
     }
-
     public void displaySimulationResults(ArrayList<Double> avgWaitingTimes, double avgServiceTime, int peakHour, double peakWaitingTime) {
         StringBuilder message = new StringBuilder("Average waiting time for:\n");
         for (int i = 0; i < avgWaitingTimes.size(); i++) {
@@ -110,7 +106,6 @@ public class SimulationView extends JFrame {
         message.append("Average service time: " + avgServiceTime + "\nPeak hour: " + peakHour + " with average waiting time: " + peakWaitingTime);
         JOptionPane.showMessageDialog(this, message.toString(), "Simulation Results", JOptionPane.INFORMATION_MESSAGE);
     }
-
     public void updateClientRemainingTime(Client client) {
         for (JPanel queuePanel : queues) {
             for (Component component : queuePanel.getComponents()) {
@@ -125,36 +120,36 @@ public class SimulationView extends JFrame {
             }
         }
     }
-
     public void updateTime(int currentTime, int maxTime) {
         timeLabel.setText("Current simulation time: " + currentTime + "/" + maxTime);
         progressBar.setValue(currentTime);
     }
-
     public synchronized void update() {
-        for (JPanel panel : queues) {
-            if (panel.getComponents().length >= 2) {
+        for(JPanel panel : queues) {
+            if(panel.getComponents().length >= 2) {
                 Component[] components = panel.getComponents();
                 JTextArea client1 = (JTextArea) components[1];
                 client1.setBackground(new Color(220, 200, 250));
 
                 boolean remove = false;
-
-                String[] clientInfo = client1.getText().split("\n");
-                int remainingTime = Integer.parseInt(clientInfo[3].substring(clientInfo[3].lastIndexOf(":") + 2));
-                if (remainingTime == 0) {
-                    remove = true;
-                    panel.remove(1); // remove the client if the service time is completed
-                    break;
+                // go through all clients in the queue
+                for (int i = 1; i < components.length; i++) {
+                    JTextArea clientBox = (JTextArea) components[i];
+                    String[] clientInfo = clientBox.getText().split("\n");
+                    int remainingTime = Integer.parseInt(clientInfo[3].substring(clientInfo[3].lastIndexOf(":") + 2));
+                    if (remainingTime == 0) {
+                        remove = true;
+                        panel.remove(1); // remove the client if the service time is completed
+                        break;
+                    }
                 }
-
                 if (remove) {
                     panel.revalidate();
                     panel.repaint();
                 }
 
                 // update the appearance of the new first element in the queue
-                if (panel.getComponents().length > 1) {
+                if(panel.getComponents().length > 1) {
                     Component[] updatedComponents = panel.getComponents();
                     JTextArea clientBox2 = (JTextArea) updatedComponents[1];
                     clientBox2.setBackground(new Color(220, 200, 250));
