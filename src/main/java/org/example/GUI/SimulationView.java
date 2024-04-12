@@ -139,7 +139,6 @@ public class SimulationView extends JFrame {
                 client1.setBackground(new Color(220, 200, 250));
 
                 boolean remove = false;
-                // go through all clients in the queue
 
                 String[] clientInfo = client1.getText().split("\n");
                 int remainingTime = Integer.parseInt(clientInfo[3].substring(clientInfo[3].lastIndexOf(":") + 2));
