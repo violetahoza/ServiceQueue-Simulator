@@ -1,0 +1,314 @@
+Client 3 arrives at: 2 with service time: 3
+Client 2 arrives at: 4 with service time: 2
+Client 1 arrives at: 9 with service time: 2
+Client 4 arrives at: 27 with service time: 3
+
+0:
+Waiting clients: (3, 2, 3) (2, 4, 2) (1, 9, 2) (4, 27, 3) 
+Queue 1: closed
+Queue 2: closed
+
+1:
+Waiting clients: (3, 2, 3) (2, 4, 2) (1, 9, 2) (4, 27, 3) 
+Queue 1: closed
+Queue 2: closed
+
+2:
+Waiting clients: (2, 4, 2) (1, 9, 2) (4, 27, 3) 
+Queue 1: (3, 2, 3) 
+Queue 2: closed
+
+3:
+Waiting clients: (2, 4, 2) (1, 9, 2) (4, 27, 3) 
+Queue 1: (3, 2, 2) 
+Queue 2: closed
+
+4:
+Waiting clients: (1, 9, 2) (4, 27, 3) 
+Queue 1: (3, 2, 1) 
+Queue 2: (2, 4, 2) 
+
+5:
+Waiting clients: (1, 9, 2) (4, 27, 3) 
+Queue 1: closed
+Queue 2: (2, 4, 1) 
+
+6:
+Waiting clients: (1, 9, 2) (4, 27, 3) 
+Queue 1: closed
+Queue 2: 
+
+7:
+Waiting clients: (1, 9, 2) (4, 27, 3) 
+Queue 1: closed
+Queue 2: closed
+
+8:
+Waiting clients: (1, 9, 2) (4, 27, 3) 
+Queue 1: closed
+Queue 2: closed
+
+9:
+Waiting clients: (4, 27, 3) 
+Queue 1: (1, 9, 2) 
+Queue 2: closed
+
+10:
+Waiting clients: (4, 27, 3) 
+Queue 1: (1, 9, 1) 
+Queue 2: closed
+
+11:
+Waiting clients: (4, 27, 3) 
+Queue 1: closed
+Queue 2: closed
+
+12:
+Waiting clients: (4, 27, 3) 
+Queue 1: closed
+Queue 2: closed
+
+13:
+Waiting clients: (4, 27, 3) 
+Queue 1: closed
+Queue 2: closed
+
+14:
+Waiting clients: (4, 27, 3) 
+Queue 1: closed
+Queue 2: closed
+
+15:
+Waiting clients: (4, 27, 3) 
+Queue 1: closed
+Queue 2: closed
+
+16:
+Waiting clients: (4, 27, 3) 
+Queue 1: closed
+Queue 2: closed
+
+17:
+Waiting clients: (4, 27, 3) 
+Queue 1: closed
+Queue 2: closed
+
+18:
+Waiting clients: (4, 27, 3) 
+Queue 1: closed
+Queue 2: closed
+
+19:
+Waiting clients: (4, 27, 3) 
+Queue 1: closed
+Queue 2: closed
+
+20:
+Waiting clients: (4, 27, 3) 
+Queue 1: closed
+Queue 2: closed
+
+21:
+Waiting clients: (4, 27, 3) 
+Queue 1: closed
+Queue 2: closed
+
+22:
+Waiting clients: (4, 27, 3) 
+Queue 1: closed
+Queue 2: closed
+
+23:
+Waiting clients: (4, 27, 3) 
+Queue 1: closed
+Queue 2: closed
+
+24:
+Waiting clients: (4, 27, 3) 
+Queue 1: closed
+Queue 2: closed
+
+25:
+Waiting clients: (4, 27, 3) 
+Queue 1: closed
+Queue 2: closed
+
+26:
+Waiting clients: (4, 27, 3) 
+Queue 1: closed
+Queue 2: closed
+
+27:
+Waiting clients: 
+Queue 1: (4, 27, 3) 
+Queue 2: closed
+
+28:
+Waiting clients: 
+Queue 1: (4, 27, 2) 
+Queue 2: closed
+
+29:
+Waiting clients: 
+Queue 1: (4, 27, 1) 
+Queue 2: closed
+
+30:
+Waiting clients: 
+Queue 1: 
+Queue 2: closed
+
+31:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+32:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+33:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+34:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+35:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+36:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+37:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+38:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+39:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+40:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+41:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+42:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+43:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+44:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+45:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+46:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+47:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+48:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+49:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+50:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+51:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+52:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+53:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+54:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+55:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+56:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+57:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+58:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+59:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+60:
+Waiting clients: 
+Queue 1: closed
+Queue 2: closed
+
+
+Average waiting time: 2.5
+Average service time: 2.5
+Peak hour: 4 with the max nr of clients: 2

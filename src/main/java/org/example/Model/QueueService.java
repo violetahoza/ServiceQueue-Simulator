@@ -1,41 +1,62 @@
 package org.example.Model;
 
+import org.example.GUI.SimulationView;
+import org.example.Logic.SimulationManager;
+
 import java.util.ArrayList;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class QueueService implements Runnable{
-    private BlockingQueue<Client> clients;
-    private AtomicInteger waitingTime, nrClients, waitingTimeSum;
-    private static boolean isRunning;
+import static java.lang.Thread.sleep;
 
-    public QueueService(){
+public class QueueService implements Runnable {
+    private BlockingQueue<Client> clients;
+    private AtomicInteger waitingTime;
+    private static volatile boolean isRunning;
+    private SimulationView view;
+    private SimulationManager manager;
+    public static AtomicInteger finishTimes;
+
+    public static void stop() {
+        isRunning = false;
+    }
+
+    public QueueService(SimulationView view, SimulationManager manager) {
         this.waitingTime = new AtomicInteger(0);
         this.clients = new ArrayBlockingQueue<>(500);
-        this.nrClients = new AtomicInteger(0);
-        this.waitingTimeSum = new AtomicInteger(0);
+        this.view = view;
+        this.isRunning = true;
+        this.manager = manager;
+        finishTimes = new AtomicInteger(0);
     }
-    public void addClient(Client client){
+
+    public void addClient(Client client) {
         clients.add(client); //add client to the queue
-        nrClients.addAndGet(1); //update the nr of clients in the queue
         waitingTime.addAndGet(client.getServiceTime()); //update the waiting time by adding the service time of the client to the time spent in the queue
     }
-    @Override
-    public void run() {
-        //loop through clients in the queue
 
-        for(Client client : clients){
-            if (client.getRemainingTime() == 0) { //if the remaining time for the client is 0, then remove it from the queue
-                LogEvents.log("Client " + client.getID() + " left");
-                clients.remove(client); // remove the client from the queue
-                nrClients.decrementAndGet(); //decrease the number of clients in the queue
-                break; // Exit loop after removing client
-            } else if (client.getRemainingTime() > 0) {
-                LogEvents.log("Client " + client.getID() + " has the remaining time: " + client.getRemainingTime());
-                waitingTime.decrementAndGet(); // decrement the total waiting time
+    @Override
+    public synchronized void run() {
+        while (isRunning) {
+            Client client = clients.peek();
+            if (client != null) {
+                while (client.getServiceTime() > 0) {
+                    try {
+                        sleep(1000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    client.decrementServiceTime();
+                    view.updateClient(client);
+                }
+                finishTimes.addAndGet(manager.getCurrentTime());
+                clients.remove(clients.peek());
+                waitingTime.addAndGet(-client.getServiceTime());
+                view.update();
             }
         }
     }
+
 
     // method to get the queue with the shortest total waiting time
     public static QueueService getShortestTimeQueue(ArrayList<QueueService> queues) {
@@ -52,14 +73,14 @@ public class QueueService implements Runnable{
     public static QueueService getQueueWithMinClients(ArrayList<QueueService> queues) {
         QueueService shortestQueue = queues.get(0);
         for (QueueService queueService : queues) {
-            if (queueService.getNrClients().get() < shortestQueue.getNrClients().get()) {
+            if (queueService.getClients().size() < shortestQueue.getClients().size()) {
                 shortestQueue = queueService;
             }
         }
         return shortestQueue;
     }
 
-//    public static QueueService getBestQueue(ArrayList<QueueService> queueServices) {
+    //    public static QueueService getBestQueue(ArrayList<QueueService> queueServices) {
 //        QueueService shortestTime = getShortestTimeQueue(queueServices);
 //        ArrayList<QueueService> shortestTimeQueues = new ArrayList<QueueService>();
 //        for (QueueService queueService : queueServices) {
@@ -68,19 +89,19 @@ public class QueueService implements Runnable{
 //        }
 //        return getQueueWithMinClients(shortestTimeQueues);
 //    }
-    public AtomicInteger getNrClients() {
-        return nrClients;
-    }
 
     public AtomicInteger getWaitingTime() {
         return waitingTime;
     }
 
-    public AtomicInteger getWaitingTimeSum() {
-        return waitingTimeSum;
-    }
-
     public BlockingQueue<Client> getClients() {
         return clients;
+    }
+    public void displayClients(){
+        for(Client client : clients)
+        {
+            if(client.getServiceTime() != 0)
+                LogEvents.log("(" + client.getID() + ", " + client.getArrivalTime() + ", " + client.getServiceTime() + ") ");
+        }
     }
 }

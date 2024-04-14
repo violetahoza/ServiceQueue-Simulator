@@ -2,7 +2,7 @@ package org.example.Model;
 
 public class Client {
     private final int ID, arrivalTime;
-    private int serviceTime, remainingTime;
+    private int serviceTime;
 
     public Client(int id, int arrivalTime, int serviceTime) {
         this.ID = id;
@@ -16,18 +16,7 @@ public class Client {
     public int getArrivalTime() {
         return arrivalTime;
     }
-    public int getServiceTime() {
-        return serviceTime;
-    }
-    public int getRemainingTime() {
-        return remainingTime;
-    }
-    public void setRemainingTime(int remainingTime) {
-        this.remainingTime = remainingTime;
-    }
-    public void decrementRemainingTime(){
-        this.remainingTime--;
-    }
+    public int getServiceTime() {return serviceTime; }
     public void decrementServiceTime(){
         this.serviceTime--;
     }

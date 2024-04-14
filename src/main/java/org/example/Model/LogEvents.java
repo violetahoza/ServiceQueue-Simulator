@@ -17,7 +17,7 @@ public class LogEvents {
     }
     public static synchronized void log(String message) {
         try {
-            file.write(message + "\n"); // write the message to the log file
+            file.write(message); // write the message to the log file
             file.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -26,7 +26,8 @@ public class LogEvents {
 
     public static synchronized void close() {
         try {
-            file.close(); // close the FileWriter
+            if(file != null)
+                file.close(); // close the FileWriter
         } catch (IOException e) {
             e.printStackTrace();
         }

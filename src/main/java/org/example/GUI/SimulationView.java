@@ -15,10 +15,6 @@ public class SimulationView extends JFrame {
     private JPanel queuesPanel = new JPanel(), progressPanel = new JPanel(), clientsPanel = new JPanel();
     private JLabel timeLabel = new JLabel();
 
-    public ArrayList<JPanel> getQueues() {
-        return queues;
-    }
-
     public JLabel getTimeLabel() {
         return timeLabel;
     }
@@ -72,6 +68,7 @@ public class SimulationView extends JFrame {
         this.pack();
     }
     public void displayClients(ArrayList<Client> clients) {
+        Collections.sort(clients, Comparator.comparingInt(Client::getArrivalTime));
         for (Client client : clients) {
             JTextArea clientBox = new JTextArea();
             clientBox.setFont(new Font("Arial", Font.BOLD, 15));
@@ -85,7 +82,7 @@ public class SimulationView extends JFrame {
         clientsPanel.revalidate();
         clientsPanel.repaint();
     }
-    public static void addClientToQueue(Client client, int queueIndex) {
+    public synchronized static void addClientToQueue(Client client, int queueIndex) {
         JPanel queuePanel = queues.get(queueIndex);
         JTextArea clientBox = new JTextArea();
         clientBox.setFont(new Font("Arial", Font.BOLD, 15));
@@ -93,37 +90,37 @@ public class SimulationView extends JFrame {
         clientBox.setBackground(new Color(247, 216, 247));
         clientBox.setSize(200, 100);
         clientBox.setEditable(false);
-        clientBox.setText("ID: " + client.getID() + "\nArrival time: " + client.getArrivalTime() + "\nService time: " + client.getServiceTime() + "\nRemaining time: " + client.getRemainingTime());
+        clientBox.setText("ID: " + client.getID() + "\nArrival time: " + client.getArrivalTime() + "\nService time: " + client.getServiceTime());
         queuePanel.add(clientBox);
         queuePanel.revalidate();
         queuePanel.repaint();
     }
-    public void displaySimulationResults(ArrayList<Double> avgWaitingTimes, double avgServiceTime, int peakHour, double peakWaitingTime) {
-        StringBuilder message = new StringBuilder("Average waiting time for:\n");
-        for (int i = 0; i < avgWaitingTimes.size(); i++) {
-            message.append("Queue ").append(i + 1).append(": ").append(avgWaitingTimes.get(i)).append("\n");
-        }
-        message.append("Average service time: " + avgServiceTime + "\nPeak hour: " + peakHour + " with average waiting time: " + peakWaitingTime);
+    public void displaySimulationResults(double avgWaitingTime, double avgServiceTime, int peakHour, int peakMax) {
+        StringBuilder message = new StringBuilder("Average waiting time: " +  avgWaitingTime + "\n");
+//        for (int i = 0; i < avgWaitingTimes.size(); i++) {
+//            message.append("Queue ").append(i + 1).append(": ").append(avgWaitingTimes.get(i)).append("\n");
+//        }
+        message.append("Average service time: " + avgServiceTime + "\nPeak hour: " + peakHour + " with the max nr of clients: " + peakMax);
         JOptionPane.showMessageDialog(this, message.toString(), "Simulation Results", JOptionPane.INFORMATION_MESSAGE);
     }
-    public void updateClientRemainingTime(Client client) {
+    public synchronized void updateClient(Client client) {
         for (JPanel queuePanel : queues) {
             for (Component component : queuePanel.getComponents()) {
                 if (component instanceof JTextArea) {
                     JTextArea clientBox = (JTextArea) component;
                     String[] clientInfo = clientBox.getText().split("\n");
-                    if (Integer.parseInt(clientInfo[0].substring(clientInfo[0].lastIndexOf(":") + 2)) == client.getID()) {
-                        clientBox.setText("ID: " + client.getID() + "\nArrival time: " + client.getArrivalTime() + "\nService time: " + client.getServiceTime() + "\nRemaining time: " + client.getRemainingTime());
+                    if (clientInfo.length > 0 && clientInfo[0].trim().length() > 0 && Integer.parseInt(clientInfo[0].substring(clientInfo[0].lastIndexOf(":") + 2)) == client.getID()) {
+                        clientBox.setText("ID: " + client.getID() + "\nArrival time: " + client.getArrivalTime() + "\nService time: " + client.getServiceTime());
                         break;
                     }
                 }
             }
         }
     }
-    public void updateTime(int currentTime, int maxTime) {
-        timeLabel.setText("Current simulation time: " + currentTime + "/" + maxTime);
-        progressBar.setValue(currentTime);
-    }
+//    public void updateTime(int currentTime, int maxTime) {
+//        timeLabel.setText("Current simulation time: " + currentTime + "/" + maxTime);
+//        progressBar.setValue(currentTime);
+//    }
     public synchronized void update() {
         for(JPanel panel : queues) {
             if(panel.getComponents().length >= 2) {
@@ -136,7 +133,10 @@ public class SimulationView extends JFrame {
                 for (int i = 1; i < components.length; i++) {
                     JTextArea clientBox = (JTextArea) components[i];
                     String[] clientInfo = clientBox.getText().split("\n");
-                    int remainingTime = Integer.parseInt(clientInfo[3].substring(clientInfo[3].lastIndexOf(":") + 2));
+                    int remainingTime = 0;
+                    if (clientInfo.length > 2) {
+                        remainingTime = Integer.parseInt(clientInfo[2].substring(clientInfo[2].lastIndexOf(":") + 2));
+                    }
                     if (remainingTime == 0) {
                         remove = true;
                         panel.remove(1); // remove the client if the service time is completed

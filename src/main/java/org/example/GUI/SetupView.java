@@ -24,7 +24,6 @@ public class SetupView extends JFrame implements ActionListener {
     public SetupView(String name){
        super(name);
        this.prepareGUI();
-
     }
 
     public void prepareGUI()
@@ -46,6 +45,7 @@ public class SetupView extends JFrame implements ActionListener {
         addRow(panel, minServ, tminService);
         addRow(panel, maxServ, tmaxService);
         customizeLabel(strategyLabel);
+
         String[] options = {String.valueOf(Strategy.SHORTEST_QUEUE), String.valueOf(Strategy.SHORTEST_TIME)};
         strategyBox = new JComboBox<>(options);
         strategyBox.setFont(new Font("Arial", Font.BOLD, 16));
