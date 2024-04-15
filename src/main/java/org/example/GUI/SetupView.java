@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.example.Logic.SimulationManager;
-import org.example.Model.LogEvents.*;
+
 import static org.example.Logic.SimulationManager.*;
 
 public class SetupView extends JFrame implements ActionListener {

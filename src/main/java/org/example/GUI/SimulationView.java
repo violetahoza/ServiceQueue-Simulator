@@ -2,12 +2,10 @@ package org.example.GUI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.Array;
 import java.util.*;
 
 import static org.example.Logic.SimulationManager.*;
 import org.example.Model.Client;
-import org.example.Model.LogEvents;
 
 public class SimulationView extends JFrame {
     private static ArrayList<JPanel> queues = new ArrayList<>(queuesNr.get());

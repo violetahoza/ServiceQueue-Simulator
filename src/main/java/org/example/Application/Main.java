@@ -1,7 +1,7 @@
 package org.example.Application;
 
 import org.example.GUI.SetupView;
-import org.example.Model.LogEvents;
+import org.example.Logic.LogEvents;
 
 import javax.swing.*;
 import java.io.IOException;

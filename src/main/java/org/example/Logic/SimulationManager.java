@@ -4,10 +4,8 @@ import org.example.GUI.*;
 import org.example.Model.*;
 
 import static java.lang.Thread.sleep;
-import static org.example.Model.LogEvents.*;
 
 import java.util.*;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SimulationManager implements Runnable {
@@ -38,7 +36,7 @@ public class SimulationManager implements Runnable {
 
     public int getCurrentTime(){
         return this.currentTime;
-    }
+    } // get the current simulation time
     private void initializeQueues() {
         for (int i = 0; i < queuesNr.get(); i++) {
             QueueService queue = new QueueService(view, this);
@@ -97,14 +95,15 @@ public class SimulationManager implements Runnable {
             }
 
             int peak = 0;
-            for (QueueService queue : queues) { // run each queue
+            for (QueueService queue : queues) {
                 peak += queue.getClients().size();
             }
             if (peak > peakMax) {
-                peakHour = currentTime; // update peak hour and peak waiting time
+                peakHour = currentTime; // update the peak hour
                 peakMax = peak;
             }
 
+            // log queue status and update simulation view
             for (int i = 0; i < queuesNr.get(); i++) {
                 if (queues.get(i).getClients().isEmpty())
                     LogEvents.log("\nQueue " + (i + 1) + ": closed");
@@ -124,6 +123,7 @@ public class SimulationManager implements Runnable {
             }
         }
 
+        // stop all the threads after the simulation ends
         for (QueueService queue : queues)
             queue.stop();
 

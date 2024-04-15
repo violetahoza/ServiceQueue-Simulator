@@ -1,4 +1,4 @@
-package org.example.Model;
+package org.example.Logic;
 
 import java.io.*;
 import java.util.concurrent.atomic.AtomicInteger;

@@ -21,7 +21,7 @@ public class ClientGenerator {
         this.minService = minService;
         this.random = new Random();
     }
-
+    // method to generate clients with random arrival and service times
     public ArrayList<Client> generateClients(){
         ArrayList<Client> clients = new ArrayList<>();
         for(int i = 1; i <= nrClients; i++){
@@ -29,7 +29,7 @@ public class ClientGenerator {
             int serviceTime = random.nextInt(minService, maxService + 1); // maxService + 1 is the max value for the random integer (I add +1 because I want maxArrival to be included in the range of possible values)
             clients.add(new Client(i, arrivalTime, serviceTime));
         }
-        return clients;
+        return clients; //return the list of generated clients
     }
 }
 
