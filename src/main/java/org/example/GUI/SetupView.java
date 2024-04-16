@@ -165,7 +165,7 @@ public class SetupView extends JFrame implements ActionListener {
     public static void showMessageDialog(String message, String title) {
         Font font = new Font("Times New Roman", Font.BOLD, 14);
         UIManager.put("OptionPane.messageFont", font);
-        UIManager.put("OptionPane.messageForeground", Color.RED);
+        UIManager.put("OptionPane.messageForeground", Color.MAGENTA);
         JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
     }
 }
