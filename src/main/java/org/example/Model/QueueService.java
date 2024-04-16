@@ -81,6 +81,7 @@ public class QueueService implements Runnable {
         }
         return shortestQueue;
     }
+    public static void addToFinishTime(int time){finishTimes.addAndGet(time);}
 
     public AtomicInteger getWaitingTime() {
         return waitingTime;

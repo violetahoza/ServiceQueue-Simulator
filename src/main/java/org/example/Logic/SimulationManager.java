@@ -122,6 +122,10 @@ public class SimulationManager implements Runnable {
                 e.printStackTrace();
             }
         }
+        for(QueueService queue : queues)
+            if(!queue.getClients().isEmpty())
+                for(Client client : queue.getClients())
+                    QueueService.addToFinishTime(simulationTime);
 
         // stop all the threads after the simulation ends
         for (QueueService queue : queues)
