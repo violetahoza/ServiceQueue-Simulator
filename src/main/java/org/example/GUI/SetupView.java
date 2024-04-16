@@ -119,31 +119,31 @@ public class SetupView extends JFrame implements ActionListener {
                 throw new IllegalArgumentException("All the inputs must be numbers!");
             }
             else{
-                clientsNr.set(Integer.parseInt(c));
-                queuesNr.set(Integer.parseInt(q));
-                simulationTime.set(Integer.parseInt(tmax));
-                maxArrival.set(Integer.parseInt(arrivmax));
-                minArrival.set(Integer.parseInt(arrivmin));
-                maxService.set(Integer.parseInt(servicemax));
-                minService.set(Integer.parseInt(servicemin));
+                clientsNr = Integer.parseInt(c);
+                queuesNr = Integer.parseInt(q);
+                simulationTime = Integer.parseInt(tmax);
+                maxArrival = Integer.parseInt(arrivmax);
+                minArrival = Integer.parseInt(arrivmin);
+                maxService = Integer.parseInt(servicemax);
+                minService = Integer.parseInt(servicemin);
             }
-            if(simulationTime.get() < 0 || maxService.get() < 0 || maxArrival.get() < 0 || minArrival.get() < 0 || minService.get() < 0 || queuesNr.get() < 0 || clientsNr.get() < 0)
+            if(simulationTime < 0 || maxService < 0 || maxArrival < 0 || minArrival < 0 || minService < 0 || queuesNr < 0 || clientsNr < 0)
             {
                 ok = false;
                 showErrorDialog("All the values must be positive!");
                 throw new IllegalArgumentException("All the values must be positive!");
             }
-            if(maxArrival.get() > simulationTime.get()){
+            if(maxArrival > simulationTime){
                 ok = false;
                 showErrorDialog("Max arrival time can't be greater than max simulation time!");
                 throw new IllegalArgumentException("Max arrival time can't be greater than max simulation time!");
             }
-            if(maxArrival.get() < minArrival.get()){
+            if(maxArrival < minArrival){
                 ok = false;
                 showErrorDialog("Min arrival cannot be greater than max arrival!");
                 throw new IllegalArgumentException("Min arrival cannot be greater than max arrival!");
             }
-            if(maxService.get() < minService.get()){
+            if(maxService < minService){
                 ok = false;
                 showErrorDialog("Min service cannot be greater than max service!");
                 throw new IllegalArgumentException("Min service cannot be greater than max service!");

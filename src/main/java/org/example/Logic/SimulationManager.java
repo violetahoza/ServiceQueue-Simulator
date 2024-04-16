@@ -9,13 +9,13 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SimulationManager implements Runnable {
-    public static AtomicInteger simulationTime = new AtomicInteger(0);
-    public static AtomicInteger clientsNr = new AtomicInteger(0);
-    public static AtomicInteger queuesNr = new AtomicInteger(0);
-    public static AtomicInteger minArrival = new AtomicInteger(0);
-    public static AtomicInteger maxArrival = new AtomicInteger(0);
-    public static AtomicInteger minService = new AtomicInteger(0);
-    public static AtomicInteger maxService = new AtomicInteger(0);
+    public static int simulationTime = 0;
+    public static int clientsNr = 0;
+    public static int queuesNr = 0;
+    public static int minArrival = 0;
+    public static int maxArrival = 0;
+    public static int minService = 0;
+    public static int maxService = 0;
     private SimulationView view;
     private ArrayList<Client> clients = new ArrayList<>();
     private ArrayList<QueueService> queues = new ArrayList<>();
@@ -38,7 +38,7 @@ public class SimulationManager implements Runnable {
         return this.currentTime;
     } // get the current simulation time
     private void initializeQueues() {
-        for (int i = 0; i < queuesNr.get(); i++) {
+        for (int i = 0; i < queuesNr; i++) {
             QueueService queue = new QueueService(view, this);
             queues.add(queue);
             Thread thread = new Thread(queue);
@@ -47,7 +47,7 @@ public class SimulationManager implements Runnable {
     }
 
     private void generateClients() {
-        ClientGenerator clientGenerator = new ClientGenerator(clientsNr.get(), minArrival.get(), maxArrival.get(), minService.get(), maxService.get());
+        ClientGenerator clientGenerator = new ClientGenerator(clientsNr, minArrival, maxArrival, minService, maxService);
         clients.addAll(clientGenerator.generateClients());
         view.displayClients(clients);
         for (Client client : clients) {
@@ -55,7 +55,7 @@ public class SimulationManager implements Runnable {
             arrivalsTime += client.getArrivalTime();
             LogEvents.log("Client " + client.getID() + " arrives at: " + client.getArrivalTime() + " with service time: " + client.getServiceTime() + "\n");
         }
-        averageServiceTime /= (double) clientsNr.get();
+        averageServiceTime /= (double) clientsNr;
     }
 
     // method to add a client to a queue
@@ -71,14 +71,14 @@ public class SimulationManager implements Runnable {
 
     public synchronized void updateCurrentTime() {
         view.getProgressBar().setValue(currentTime);
-        view.getTimeLabel().setText("Current simulation time: " + currentTime + "/" + simulationTime.get());
+        view.getTimeLabel().setText("Current simulation time: " + currentTime + "/" + simulationTime);
         currentTime++;
     }
 
     @Override
     public synchronized void run() {
         // main simulation loop
-        while (currentTime <= simulationTime.get()) {
+        while (currentTime <= simulationTime) {
             LogEvents.log("\n" + currentTime + ":\nWaiting clients: ");
             for (Client client : clients) { // process each client
                 if (client.getArrivalTime() > currentTime) {
@@ -104,7 +104,7 @@ public class SimulationManager implements Runnable {
             }
 
             // log queue status and update simulation view
-            for (int i = 0; i < queuesNr.get(); i++) {
+            for (int i = 0; i < queuesNr; i++) {
                 if (queues.get(i).getClients().isEmpty())
                     LogEvents.log("\nQueue " + (i + 1) + ": closed");
                 else {
@@ -127,7 +127,7 @@ public class SimulationManager implements Runnable {
         for (QueueService queue : queues)
             queue.stop();
 
-        averageWaitingTime = (double) (QueueService.finishTimes.get() - arrivalsTime) / clientsNr.get();
+        averageWaitingTime = (double) (QueueService.finishTimes.get() - arrivalsTime) / clientsNr;
 
         // Compute and log the average waiting time for each queue
         LogEvents.log("\n\nAverage waiting time: " + averageWaitingTime);

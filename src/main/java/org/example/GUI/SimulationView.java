@@ -8,7 +8,7 @@ import static org.example.Logic.SimulationManager.*;
 import org.example.Model.Client;
 
 public class SimulationView extends JFrame {
-    private static ArrayList<JPanel> queues = new ArrayList<>(queuesNr.get());
+    private static ArrayList<JPanel> queues = new ArrayList<>(queuesNr);
     private JProgressBar progressBar = new JProgressBar();
     private JPanel queuesPanel = new JPanel(), progressPanel = new JPanel(), clientsPanel = new JPanel();
     private JLabel timeLabel = new JLabel();
@@ -29,21 +29,21 @@ public class SimulationView extends JFrame {
         //setup progress panel
         progressPanel.setBackground(new Color(128, 0, 128));
         progressPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
-        timeLabel.setText("Current simulation time: " + 0 + "/" + simulationTime.get());
+        timeLabel.setText("Current simulation time: " + 0 + "/" + simulationTime);
         timeLabel.setForeground(new Color(220, 200, 250));
         progressPanel.add(timeLabel);
-        progressBar.setMaximum(simulationTime.get());
+        progressBar.setMaximum(simulationTime);
         progressPanel.add(progressBar);
         this.add(progressPanel, BorderLayout.NORTH);
 
         //setup queues panel
         queuesPanel.setBackground(new Color(128, 0, 128));
         queuesPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
-        queuesPanel.setLayout(new GridLayout(queuesNr.get(), 1));
-        for(int i = 0; i < queuesNr.get(); i++) {
+        queuesPanel.setLayout(new GridLayout(queuesNr, 1));
+        for(int i = 0; i < queuesNr; i++) {
             JPanel queuePanel = new JPanel();
             queuePanel.setBackground(new Color(128, 0, 128));
-            queuePanel.setLayout(new GridLayout(1, clientsNr.get()));
+            queuePanel.setLayout(new GridLayout(1, clientsNr));
             queuePanel.setSize(1600, 100);
             JLabel queueIndex = new JLabel("Queue " + (i + 1));
             queueIndex.setForeground(new Color(220, 200, 250));
