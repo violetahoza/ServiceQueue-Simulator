@@ -140,4 +140,12 @@ public class SimulationManager implements Runnable {
         SetupView.showMessageDialog("Simulation finished :)", "Simulation status");
         view.displaySimulationResults(averageWaitingTime, averageServiceTime, peakHour, peakMax);
     }
+//    private boolean allClientsLeft() {
+//        for (QueueService queue : queues) {
+//            if (!queue.getClients().isEmpty()) {
+//                return false; // If any queue still has clients, return false
+//            }
+//        }
+//        return true; // If all queues are empty, return true
+//    }
 }
