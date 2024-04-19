@@ -21,15 +21,17 @@ public class SimulationManager implements Runnable {
     private ArrayList<QueueService> queues = new ArrayList<>();
     private int currentTime = 0, peakHour = 0, peakMax = 0, arrivalsTime = 0;
     private double averageServiceTime = 0, averageWaitingTime = 0.0;
+    private StrategyPattern strategyPattern;
 
-    public static enum Strategy {
-        SHORTEST_TIME, SHORTEST_QUEUE
-    }
+//    public static enum Strategy {
+//        SHORTEST_TIME, SHORTEST_QUEUE
+//    }
 
-    public static Strategy strategy;
+   // public static Strategy strategy;
 
-    public SimulationManager(SimulationView view) {
+    public SimulationManager(SimulationView view, StrategyPattern strategyPattern) {
         this.view = view;
+        this.strategyPattern = strategyPattern;
         initializeQueues();
         generateClients();
     }
@@ -86,10 +88,11 @@ public class SimulationManager implements Runnable {
                 }
                 else if (client.getArrivalTime() == currentTime) { // if the client has arrived
                     QueueService best = null;
-                    if (strategy == Strategy.SHORTEST_QUEUE)
-                        best = QueueService.getQueueWithMinClients(queues);
-                    if (strategy == Strategy.SHORTEST_TIME)
-                        best = QueueService.getShortestTimeQueue(queues);
+                    best = strategyPattern.selectQueue(queues);
+//                    if (strategy == Strategy.SHORTEST_QUEUE)
+//                        best = QueueService.getQueueWithMinClients(queues);
+//                    if (strategy == Strategy.SHORTEST_TIME)
+//                        best = QueueService.getShortestTimeQueue(queues);
                     addClient(client, best); // add the client to the optimal queue
                 }
             }

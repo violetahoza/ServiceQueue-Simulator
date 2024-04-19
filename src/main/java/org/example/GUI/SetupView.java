@@ -4,7 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.example.Logic.ShortestQueue;
+import org.example.Logic.ShortestTime;
 import org.example.Logic.SimulationManager;
+import org.example.Logic.StrategyPattern;
 
 import static org.example.Logic.SimulationManager.*;
 
@@ -20,6 +23,8 @@ public class SetupView extends JFrame implements ActionListener {
     public JTextField clientstf = new JTextField(), queuetf = new JTextField(), tmaxtf = new JTextField(), tminArrival = new JTextField(), tmaxArrival = new JTextField(), tminService = new JTextField(), tmaxService = new JTextField();
     private JButton submit = new JButton("Submit");
     private JComboBox strategyBox;
+    StrategyPattern strategyPattern = null;
+
 
     public SetupView(String name){
        super(name);
@@ -46,7 +51,9 @@ public class SetupView extends JFrame implements ActionListener {
         addRow(panel, maxServ, tmaxService);
         customizeLabel(strategyLabel);
 
-        String[] options = {String.valueOf(Strategy.SHORTEST_QUEUE), String.valueOf(Strategy.SHORTEST_TIME)};
+       // String[] options = {String.valueOf(Strategy.SHORTEST_QUEUE), String.valueOf(Strategy.SHORTEST_TIME)};
+        String[] options = {"SHORTEST_QUEUE", "SHORTEST_TIME"};
+
         strategyBox = new JComboBox<>(options);
         strategyBox.setFont(new Font("Arial", Font.BOLD, 16));
         strategyBox.setForeground(new Color(128, 0, 128));
@@ -81,21 +88,36 @@ public class SetupView extends JFrame implements ActionListener {
         panel.add(label);
         panel.add(textField);
     }
-    private void getStrategy() {
-        String selectedStrategy = (String) strategyBox.getSelectedItem();
-        if (selectedStrategy != null) {
-            switch (selectedStrategy) {
-                case "SHORTEST_TIME":
-                    strategy = Strategy.SHORTEST_TIME;
-                    break;
-                case "SHORTEST_QUEUE":
-                    strategy = Strategy.SHORTEST_QUEUE;
-                    break;
-                default:
-                    break;
-            }
+//    private void getStrategy() {
+//        String selectedStrategy = (String) strategyBox.getSelectedItem();
+//        if (selectedStrategy != null) {
+//            switch (selectedStrategy) {
+//                case "SHORTEST_TIME":
+//                    strategy = Strategy.SHORTEST_TIME;
+//                    break;
+//                case "SHORTEST_QUEUE":
+//                    strategy = Strategy.SHORTEST_QUEUE;
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
+//    }
+private void getStrategy() {
+    String selectedStrategy = (String) strategyBox.getSelectedItem();
+    if (selectedStrategy != null) {
+        switch (selectedStrategy) {
+            case "SHORTEST_QUEUE":
+                strategyPattern = new ShortestQueue();
+                break;
+            case "SHORTEST_TIME":
+                strategyPattern = new ShortestTime();
+                break;
+            default:
+                break;
         }
     }
+}
     @Override
     public void actionPerformed(ActionEvent e) {
         boolean ok = true;
@@ -150,7 +172,7 @@ public class SetupView extends JFrame implements ActionListener {
             }
             if(ok == true) { // if the inputs are valid, start the simulation
                 System.out.println("the inputs are ok");
-                Thread simulationControl = new Thread(new SimulationManager(new SimulationView("Queue management simulation")));
+                Thread simulationControl = new Thread(new SimulationManager(new SimulationView("Queue management simulation"), strategyPattern));
                 this.dispose();
                 simulationControl.start();
             }

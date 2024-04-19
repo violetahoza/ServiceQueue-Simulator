@@ -61,26 +61,26 @@ public class QueueService implements Runnable {
 
 
     // method to get the queue with the shortest total waiting time
-    public static QueueService getShortestTimeQueue(ArrayList<QueueService> queues) {
-        QueueService shortestQueue = queues.get(0);
-        for (QueueService queueService : queues) {
-            if (queueService.getWaitingTime().get() < shortestQueue.getWaitingTime().get()) {
-                shortestQueue = queueService;
-            }
-        }
-        return shortestQueue;
-    }
-
-    // method to get the queue with the minimum number of clients
-    public static QueueService getQueueWithMinClients(ArrayList<QueueService> queues) {
-        QueueService shortestQueue = queues.get(0);
-        for (QueueService queueService : queues) {
-            if (queueService.getClients().size() < shortestQueue.getClients().size()) {
-                shortestQueue = queueService;
-            }
-        }
-        return shortestQueue;
-    }
+//    public static QueueService getShortestTimeQueue(ArrayList<QueueService> queues) {
+//        QueueService shortestQueue = queues.get(0);
+//        for (QueueService queueService : queues) {
+//            if (queueService.getWaitingTime().get() < shortestQueue.getWaitingTime().get()) {
+//                shortestQueue = queueService;
+//            }
+//        }
+//        return shortestQueue;
+//    }
+//
+//    // method to get the queue with the minimum number of clients
+//    public static QueueService getQueueWithMinClients(ArrayList<QueueService> queues) {
+//        QueueService shortestQueue = queues.get(0);
+//        for (QueueService queueService : queues) {
+//            if (queueService.getClients().size() < shortestQueue.getClients().size()) {
+//                shortestQueue = queueService;
+//            }
+//        }
+//        return shortestQueue;
+//    }
     public static void addToFinishTime(int time){finishTimes.addAndGet(time);}
 
     public AtomicInteger getWaitingTime() {
